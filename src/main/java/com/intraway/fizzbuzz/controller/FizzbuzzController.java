@@ -1,7 +1,9 @@
 package com.intraway.fizzbuzz.controller;
 
 import com.intraway.fizzbuzz.model.ResponseFizzBuzz;
+import com.intraway.fizzbuzz.repository.FizzbuzzRepository;
 import com.mongodb.MongoClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.logging.Level;
@@ -14,12 +16,14 @@ import static com.intraway.fizzbuzz.util.Constants.END_POINT_fIZZ_BUZZ;
 @RequestMapping(API_URL)
 public class FizzbuzzController {
 
-  private final Logger logger = Logger.getLogger(this.getClass().getName());
+  final
+  FizzbuzzRepository repository;
 
   final MongoClient mongoClient;
 
-  public FizzbuzzController(MongoClient mongoClient) {
+  public FizzbuzzController(MongoClient mongoClient, FizzbuzzRepository repository) {
     this.mongoClient = mongoClient;
+    this.repository = repository;
   }
 
   @GetMapping(END_POINT_fIZZ_BUZZ + "{min}/{max}")
@@ -28,7 +32,7 @@ public class FizzbuzzController {
 
     ResponseFizzBuzz responseFizzBuzz = FizzBuzz.getOutput(min, max);
 
-    logger.log(Level.INFO, "First database name: {0}", mongoClient.listDatabaseNames().first());
+    repository.save(responseFizzBuzz);
 
     return responseFizzBuzz;
   }
