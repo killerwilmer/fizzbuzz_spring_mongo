@@ -1,30 +1,47 @@
 package com.intraway.fizzbuzz.controller;
 
-import org.apache.commons.lang3.StringUtils;
+import com.intraway.fizzbuzz.model.ResponseFizzBuzz;
+import java.sql.Timestamp;
+import java.util.concurrent.atomic.AtomicLong;
+import static com.intraway.fizzbuzz.util.Constants.API_URL;
+import static com.intraway.fizzbuzz.util.Constants.END_POINT_fIZZ_BUZZ;
 
 public class FizzBuzz {
 
   public static String description;
   private static boolean fizz;
   private static boolean buzz;
+  private static final AtomicLong counter = new AtomicLong();
 
-  public static String getOutput(int min, int max) {
-    String result = "";
+  public static ResponseFizzBuzz getOutput(int min, int max) {
+
     fizz = false;
     buzz = false;
+    ResponseFizzBuzz responseFizzBuzz = new ResponseFizzBuzz();
+    responseFizzBuzz.setTimestamp(new Timestamp(System.currentTimeMillis()).getTime());
 
+    if (min >= max) {
+      responseFizzBuzz.setCode(400);
+      responseFizzBuzz.setError("Bad Request");
+      responseFizzBuzz.setException("com.intraway.exceptions.badrequest");
+      responseFizzBuzz.setMessage("Los parámetros enviados son incorrectos");
+      responseFizzBuzz.setPath(API_URL + END_POINT_fIZZ_BUZZ + min + "/" + max);
+      return responseFizzBuzz;
+    }
+
+    String numberList = "";
     for (int i = min; i <= max; i++) {
       if (((i % 3) == 0) && ((i % 5) == 0)) {
-        result += "FizzBuzz";
+        numberList += "FizzBuzz";
       } else if ((i % 3) == 0) {
-        result += "Fizz";
+        numberList += "Fizz";
         fizz = true;
       } else if ((i % 5) == 0) {
-        result += "Buzz";
+        numberList += "Buzz";
         buzz = true;
-      } else result += i;
+      } else numberList += i;
 
-      result += ",";
+      numberList += ",";
     }
 
     if (fizz && buzz) {
@@ -37,6 +54,10 @@ public class FizzBuzz {
       description = "no se encontraron múltiplos";
     }
 
-    return StringUtils.removeEnd(result, ",");
+    responseFizzBuzz.setCode(counter.incrementAndGet());
+    responseFizzBuzz.setDescription(description);
+    responseFizzBuzz.setList(numberList);
+
+    return responseFizzBuzz;
   }
 }
