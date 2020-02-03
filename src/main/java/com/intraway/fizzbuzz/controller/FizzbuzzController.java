@@ -1,25 +1,35 @@
 package com.intraway.fizzbuzz.controller;
 
+import com.intraway.fizzbuzz.model.ResponseFizzBuzz;
+import com.mongodb.MongoClient;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static com.intraway.fizzbuzz.util.Constants.API_URL;
+import static com.intraway.fizzbuzz.util.Constants.END_POINT_fIZZ_BUZZ;
 
 @RestController
-@RequestMapping("/intraway/api/")
+@RequestMapping(API_URL)
 public class FizzbuzzController {
 
-  private final AtomicLong counter = new AtomicLong();
+  private final Logger logger = Logger.getLogger(this.getClass().getName());
 
-  @GetMapping("/fizzbuzz/{min}/{max}")
+  final MongoClient mongoClient;
+
+  public FizzbuzzController(MongoClient mongoClient) {
+    this.mongoClient = mongoClient;
+  }
+
+  @GetMapping(END_POINT_fIZZ_BUZZ + "{min}/{max}")
   @ResponseBody
   public ResponseFizzBuzz getFizzBuzz(@PathVariable int min, @PathVariable int max) {
 
-    String list = FizzBuzz.getOutput(min, max);
-    Long code = counter.incrementAndGet();
-    String description = FizzBuzz.description;
-    Long timestamp = new Timestamp(System.currentTimeMillis()).getTime();
+    ResponseFizzBuzz responseFizzBuzz = FizzBuzz.getOutput(min, max);
 
-    return new ResponseFizzBuzz(code, list, description, timestamp);
+    logger.log(Level.INFO, "First database name: {0}", mongoClient.listDatabaseNames().first());
+
+    return responseFizzBuzz;
   }
 }
