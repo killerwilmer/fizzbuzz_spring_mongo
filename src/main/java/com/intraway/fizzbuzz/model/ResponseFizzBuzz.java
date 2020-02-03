@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ResponseFizzBuzz {
 
-  private long code;
+  private Long code;
   private String list;
   private String description;
   private long timestamp;
@@ -17,7 +17,7 @@ public class ResponseFizzBuzz {
 
   public ResponseFizzBuzz() {}
 
-  public long getCode() {
+  public Long getCode() {
     return code;
   }
 
@@ -29,7 +29,7 @@ public class ResponseFizzBuzz {
     return description;
   }
 
-  public void setCode(long code) {
+  public void setCode(Long code) {
     this.code = code;
   }
 

@@ -24,7 +24,7 @@ public class FizzBuzz {
     responseFizzBuzz.setTimestamp(new Timestamp(System.currentTimeMillis()).getTime());
 
     if (min > max) {
-      responseFizzBuzz.setCode(400);
+      responseFizzBuzz.setStatus(400);
       responseFizzBuzz.setError("Bad Request");
       responseFizzBuzz.setException("com.intraway.exceptions.badrequest");
       responseFizzBuzz.setMessage("Los parámetros enviados son incorrectos");
