@@ -1,0 +1,11 @@
+version: '3'
+services:
+  intra-mongodb:
+    container_name: intra-mongodb
+    image: mongo:3.6
+    restart: always
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/null
+    ports:
+      - 27017:27017
