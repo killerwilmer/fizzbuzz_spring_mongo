@@ -3,11 +3,7 @@ package com.intraway.fizzbuzz.controller;
 import com.intraway.fizzbuzz.model.ResponseFizzBuzz;
 import com.intraway.fizzbuzz.repository.FizzbuzzRepository;
 import com.mongodb.MongoClient;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import static com.intraway.fizzbuzz.util.Constants.API_URL;
 import static com.intraway.fizzbuzz.util.Constants.END_POINT_fIZZ_BUZZ;
@@ -16,8 +12,7 @@ import static com.intraway.fizzbuzz.util.Constants.END_POINT_fIZZ_BUZZ;
 @RequestMapping(API_URL)
 public class FizzbuzzController {
 
-  final
-  FizzbuzzRepository repository;
+  final FizzbuzzRepository repository;
 
   final MongoClient mongoClient;
 
@@ -30,7 +25,9 @@ public class FizzbuzzController {
   @ResponseBody
   public ResponseFizzBuzz getFizzBuzz(@PathVariable int min, @PathVariable int max) {
 
-    ResponseFizzBuzz responseFizzBuzz = FizzBuzz.getOutput(min, max);
+    FizzBuzz fizzBuzz = new FizzBuzz();
+
+    ResponseFizzBuzz responseFizzBuzz = fizzBuzz.getListNumbers(min, max);
 
     repository.save(responseFizzBuzz);
 

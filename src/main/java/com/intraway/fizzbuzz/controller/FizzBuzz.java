@@ -3,6 +3,9 @@ package com.intraway.fizzbuzz.controller;
 import com.intraway.fizzbuzz.model.ResponseFizzBuzz;
 import java.sql.Timestamp;
 import java.util.concurrent.atomic.AtomicLong;
+
+import org.apache.commons.lang3.StringUtils;
+
 import static com.intraway.fizzbuzz.util.Constants.API_URL;
 import static com.intraway.fizzbuzz.util.Constants.END_POINT_fIZZ_BUZZ;
 
@@ -13,14 +16,14 @@ public class FizzBuzz {
   private static boolean buzz;
   private static final AtomicLong counter = new AtomicLong();
 
-  public static ResponseFizzBuzz getOutput(int min, int max) {
+  public ResponseFizzBuzz getListNumbers(int min, int max) {
 
     fizz = false;
     buzz = false;
     ResponseFizzBuzz responseFizzBuzz = new ResponseFizzBuzz();
     responseFizzBuzz.setTimestamp(new Timestamp(System.currentTimeMillis()).getTime());
 
-    if (min >= max) {
+    if (min > max) {
       responseFizzBuzz.setCode(400);
       responseFizzBuzz.setError("Bad Request");
       responseFizzBuzz.setException("com.intraway.exceptions.badrequest");
@@ -56,7 +59,7 @@ public class FizzBuzz {
 
     responseFizzBuzz.setCode(counter.incrementAndGet());
     responseFizzBuzz.setDescription(description);
-    responseFizzBuzz.setList(numberList);
+    responseFizzBuzz.setList(StringUtils.removeEnd(numberList, ","));
 
     return responseFizzBuzz;
   }
