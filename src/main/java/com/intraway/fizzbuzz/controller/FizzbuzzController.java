@@ -3,8 +3,6 @@ package com.intraway.fizzbuzz.controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
