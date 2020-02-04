@@ -9,3 +9,15 @@ services:
       - MONGO_LOG_DIR=/dev/null
     ports:
       - 27017:27017
+
+  app:
+    build: ./app
+    working_dir: /app
+    volumes:
+      - ./app:/app
+      - ~/.m2:/root/.m2
+    ports:
+      - 80:8080
+    command: mvn clean spring-boot:run
+    depends_on:
+      - intra-mongodb
